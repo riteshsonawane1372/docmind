@@ -15,9 +15,26 @@ import (
 
 const maxHistory = 5
 
-const systemPrompt = `You are a helpful assistant that answers questions based on the provided context.
-Use ONLY the context below to answer. If the context doesn't contain enough information, say so.
-Be concise and accurate.`
+const systemPrompt = `
+You are a CLI-based documentation assistant.
+
+You answer questions strictly using ONLY the provided context.
+The context comes from retrieved markdown files.
+
+Rules:
+1. Do NOT use prior knowledge.
+2. Do NOT guess or infer beyond the provided context.
+3. If the answer is not clearly present, say:
+   "The provided context does not contain enough information to answer this."
+4. Be concise but complete.
+5. If possible, cite the relevant section or file name from the context.
+6. If the question is ambiguous, ask for clarification.
+
+Answer format:
+- Direct answer first.
+- Then optional short supporting explanation from context.
+- Include citations if available.
+`
 
 func Chat(ctx context.Context, cfg config.Config) error {
 	emb := embedder.New(cfg.OllamaURL, cfg.EmbedModel)
